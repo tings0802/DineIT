@@ -33,8 +33,14 @@ def show(menu, prompt='All stores:'):
         print('The list is empty now.\n')
     print()
 
+def clear():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
+
 def reset(menu):
-    # os.system('clear')
+    # clear()
     print('Data is reset!\n')
     return menu.clear()
 
@@ -55,14 +61,14 @@ def add(menu):
         open_hour = input_time('Add open_hours ...... (ex: 7.25)', 0)
         close_hour = input_time('Add close_hours ...... (ex: 16.30)', 24)
         menu.append([store, open_hour, close_hour])
-    # os.system('clear')
+    # clear()
     print ('Data is update!\n')
     return menu
 
 def delete(menu):
     store = input('Delete one store ......')
     menu = [item for item in menu if store != item[0]]
-    # os.system('clear')
+    # clear()
     print ('Data is update!\n')
     return menu
 
@@ -79,7 +85,7 @@ def filter(menu):
 def choose(menu):
     if menu:
         return random.choice(menu)[0]
-    # os.system('clear')
+    # clear()
     print('The list is empty now.\n')
 
 def main():
@@ -91,13 +97,15 @@ def main():
                         '(Q)uit'])
     path = 'data.txt'
     menu = read(path)
-    os.system('clear')
+    clear()
     command = ''
+
     while command.lower() not in ['quit', 'q']:
-        show(filter(menu), 'now available:')
+        if menu:
+            show(filter(menu), 'now available:')
         print(option)
         command = input('Let\'s choose what to eat ......').lower()
-        os.system('clear')
+        clear()
         if command in ['show', 's', 'list', 'ls', 'l']:
             show(menu)
         elif command in ['append', 'add', 'a']:
